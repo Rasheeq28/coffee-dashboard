@@ -46,6 +46,7 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+import sqlite3
 
 # Connect to your database
 conn = sqlite3.connect("sheets_data.db")
@@ -60,7 +61,8 @@ selected_table = st.sidebar.selectbox("Select a table", tables)
 
 # Display the selected table
 st.title(f"📊 {selected_table} Table")
-df = pd.read_sql_query(f"SELECT * FROM {selected_table} LIMIT 100", conn)
+query = f'SELECT * FROM "{selected_table}" LIMIT 100'
+df = pd.read_sql_query(query, conn)
 st.dataframe(df)
 
 conn.close()
