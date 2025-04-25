@@ -527,6 +527,8 @@
 #         st.subheader("Store-wise Total Sales")
 #         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
 
+
+
 ##perfect filters for sales amd transactions
 # import streamlit as st
 # import pandas as pd
@@ -715,7 +717,8 @@ with tab1:
         .reset_index()
         .rename(columns={'transaction_id': 'transactions', 'transaction_date': 'date'})
     )
-    transactions_by_store['date'] = pd.to_datetime(transactions_by_store['transaction_date'])
+    transactions_by_store['date'] = pd.to_datetime(transactions_by_store['date'])
+
     transactions_by_store = transactions_by_store.rename(columns={"transaction_date": "date"})
 
     st.subheader("Filtered Daily Transaction Trend")
