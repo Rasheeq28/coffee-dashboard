@@ -409,7 +409,6 @@
 #         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
 
 
-
 import streamlit as st
 import pandas as pd
 import json
@@ -417,14 +416,11 @@ import sqlite3
 from datetime import datetime
 import plotly.express as px
 
-# Connect to the database
 conn = sqlite3.connect("sheets_data.db")
 df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', conn)
 
 # Parse dates for filtering and plotting
 df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])
-df_raw['sales'] = df_raw['quantity'] * df_raw['unit_price']
-
 # Load precomputed metrics from metrics.json
 with open("metrics.json", "r") as f:
     metrics = json.load(f)
@@ -460,10 +456,13 @@ with tab1:
 
     st.subheader("📍 Store-wise Daily Transactions")
 
-    # Dropdown to select a store
+    # Get unique store IDs
     store_options_txn = df_raw['sales_outlet_id'].unique().tolist()
+
+    # Dropdown to select a store
     selected_store_txn = st.selectbox("Select a store for transaction trend", ["All"] + store_options_txn)
 
+    # Group and prepare transaction trend
     transactions_by_store = (
         df_raw.groupby([df_raw['transaction_date'].dt.date, 'sales_outlet_id'])['transaction_id']
         .count()
@@ -471,9 +470,11 @@ with tab1:
         .rename(columns={'transaction_id': 'transactions', 'transaction_date': 'date'})
     )
 
+    # Filter based on store selection
     if selected_store_txn != "All":
         transactions_by_store = transactions_by_store[transactions_by_store['sales_outlet_id'] == selected_store_txn]
 
+    # Plot line chart
     fig = px.line(transactions_by_store, x="date", y="transactions",
                   color="sales_outlet_id" if selected_store_txn == "All" else None,
                   title=f"Store-wise Daily Transactions for {selected_store_txn}" if selected_store_txn != "All" else "Store-wise Daily Transactions")
@@ -485,8 +486,15 @@ with tab2:
     st.subheader("Sales Overview")
 
     # Filters
-    selected_store = st.selectbox("Store ID", options=["All"] + store_ids, key="sales_store")
-    selected_range = st.date_input("Date Range", [min_date, max_date], key="sales_range")
+    with st.sidebar:
+        st.header("💡 Sales Filters")
+        selected_store = st.selectbox("Store ID", options=["All"] + store_ids)
+        selected_range = st.date_input("Date Range", [min_date, max_date])
+
+    # Load full transaction data for accurate filtering
+    df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', sqlite3.connect("sheets_data.db"))
+    df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])
+    df_raw['sales'] = df_raw['quantity'] * df_raw['unit_price']
 
     # Apply filters to raw data
     mask = (df_raw['transaction_date'].dt.date >= selected_range[0]) & \
@@ -497,7 +505,9 @@ with tab2:
 
     filtered = df_raw[mask]
 
-    st.metric("Filtered Total Sales", f"${filtered['sales'].sum():,.2f}")
+    # Total filtered sales
+    total_filtered_sales = filtered['sales'].sum()
+    st.metric("Filtered Total Sales", f"${total_filtered_sales:,.2f}")
 
     # Daily sales for filtered data
     daily_filtered_sales = (
@@ -508,18 +518,9 @@ with tab2:
     daily_filtered_sales.columns = ['date', 'sales']
     daily_filtered_sales['date'] = pd.to_datetime(daily_filtered_sales['date'])
 
-    st.subheader(f"Daily Sales Trend - Store {selected_store}")
-    fig_sales = px.line(daily_filtered_sales, x="date", y="sales",
-                        title=f"Daily Sales for Store {selected_store}")
-    st.plotly_chart(fig_sales, use_container_width=True)
+    st.subheader(f"Daily Sales Trend - store {selected_store}")
+    st.line_chart(daily_filtered_sales.set_index("date")["sales"])
 
     if selected_store == "All":
         st.subheader("Store-wise Total Sales")
-        total_store_sales = (
-            filtered.groupby('sales_outlet_id')['sales'].sum().reset_index()
-            .sort_values(by="sales", ascending=False)
-        )
-        fig_bar = px.bar(total_store_sales, x="sales_outlet_id", y="sales",
-                         title="Total Sales by Store")
-        st.plotly_chart(fig_bar, use_container_width=True)
-
+        st.bar_chart(store_sales_df.set_index("store_id")["sales"])
