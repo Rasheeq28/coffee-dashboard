@@ -48,21 +48,10 @@ import sqlite3
 import pandas as pd
 import sqlite3
 
-# Connect to your database
-conn = sqlite3.connect("sheets_data.db")
-cursor = conn.cursor()
+# Load metrics from analysis
+with open("metrics.json", "r") as f:
+    metrics = json.load(f)
 
-# Get all table names
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-tables = [row[0] for row in cursor.fetchall()]
+# Show total transactions
+st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
 
-# Sidebar dropdown to select a table
-selected_table = st.sidebar.selectbox("Select a table", tables)
-
-# Display the selected table
-st.title(f"📊 {selected_table} Table")
-query = f'SELECT * FROM "{selected_table}" LIMIT 100'
-df = pd.read_sql_query(query, conn)
-st.dataframe(df)
-
-conn.close()
