@@ -43,23 +43,48 @@
 #         chart_col = st.sidebar.selectbox("Choose a column to chart", numeric_cols)
 #         st.line_chart(df[chart_col])
 # dashboard.py
+# import streamlit as st
+# import json
+# import pandas as pd
+#
+# # Load metrics from analysis
+# with open("metrics.json", "r") as f:
+#     metrics = json.load(f)
+#
+# # Show total transactions
+# st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
+#
+# # Load daily transaction trend into a DataFrame
+# daily_df = pd.DataFrame(metrics["daily_transactions"])
+#
+# # Convert date column to datetime for plotting
+# daily_df["date"] = pd.to_datetime(daily_df["date"])
+#
+# # Show line chart
+# st.markdown("### 📈 Daily Transaction Trend")
+# st.line_chart(daily_df.set_index("date")["transactions"])
 import streamlit as st
 import json
 import pandas as pd
 
-# Load metrics from analysis
+# Load metrics
 with open("metrics.json", "r") as f:
     metrics = json.load(f)
 
 # Show total transactions
 st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
 
-# Load daily transaction trend into a DataFrame
+# === Daily Overall Transaction Trend ===
+st.markdown("### 📈 Daily Transaction Trend (All Stores Combined)")
 daily_df = pd.DataFrame(metrics["daily_transactions"])
-
-# Convert date column to datetime for plotting
 daily_df["date"] = pd.to_datetime(daily_df["date"])
-
-# Show line chart
-st.markdown("### 📈 Daily Transaction Trend")
 st.line_chart(daily_df.set_index("date")["transactions"])
+
+# === Daily Transactions Per Outlet ===
+st.markdown("### 🏪 Daily Transactions Per Sales Outlet")
+outlet_df = pd.DataFrame(metrics["outlet_transactions"])
+outlet_df["date"] = pd.to_datetime(outlet_df["date"])
+
+# Pivot for Streamlit chart: dates as index, outlet IDs as columns
+pivot_df = outlet_df.pivot(index="date", columns="sales_outlet_id", values="transactions")
+st.line_chart(pivot_df)
