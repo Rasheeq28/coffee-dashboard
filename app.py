@@ -684,7 +684,7 @@ product_ids = df_raw["product_id"].unique().tolist()
 # UI
 st.title("📊 Sales & Transactions Dashboard")
 
-tab1, tab2 = st.tabs(["🧾 Transactions", "💰 Sales"])
+tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "📈 Other KPI's"])
 
 # -------------------- TRANSACTIONS TAB --------------------
 with tab1:
