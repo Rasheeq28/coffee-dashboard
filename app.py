@@ -295,56 +295,76 @@
 
 
 import streamlit as st
-import json
 import pandas as pd
+import json
+from datetime import datetime
 
-# Load metrics from analysis
+# Load precomputed metrics from metrics.json
 with open("metrics.json", "r") as f:
     metrics = json.load(f)
 
-# --- Sidebar Filter ---
-st.sidebar.title("📊 Transactions")
-filter_option = st.sidebar.radio("Filter by:", ["Date", "Store ID"])
+# Convert to DataFrames
+daily_transactions_df = pd.DataFrame(metrics["daily_transactions"])
+outlet_transactions_df = pd.DataFrame(metrics["outlet_daily_transactions"])
+daily_sales_df = pd.DataFrame(metrics["daily_sales"])
+store_sales_df = pd.DataFrame(metrics["store_sales"])
 
-# --- Show total transactions ---
-st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
+# Ensure date columns are datetime
+daily_transactions_df["date"] = pd.to_datetime(daily_transactions_df["date"])
+outlet_transactions_df["transaction_date"] = pd.to_datetime(outlet_transactions_df["transaction_date"])
+daily_sales_df["date"] = pd.to_datetime(daily_sales_df["date"])
 
-# --- Daily Transactions Chart ---
-if filter_option == "Date":
-    daily_df = pd.DataFrame(metrics["daily_transactions"])
-    daily_df["date"] = pd.to_datetime(daily_df["date"])
+# Get date range and store list
+min_date = daily_sales_df["date"].min().date()
+max_date = daily_sales_df["date"].max().date()
+store_ids = store_sales_df["store_id"].unique().tolist()
 
-    st.markdown("### 📅 Daily Transaction Trend")
-    st.line_chart(daily_df.set_index("date")["transactions"])
+# UI
+st.title("📊 Sales & Transactions Dashboard")
 
-# --- Store-wise Transaction Chart ---
-elif filter_option == "Store ID":
-    outlet_df = pd.DataFrame(metrics["outlet_daily_transactions"])
+tab1, tab2 = st.tabs(["🧾 Transactions", "💰 Sales"])
 
-    # Rename if needed
-    if 'transaction_date' in outlet_df.columns:
-        outlet_df = outlet_df.rename(columns={'transaction_date': 'date'})
+# -------------------- TRANSACTIONS TAB --------------------
+with tab1:
+    st.subheader("Transaction Overview")
+    st.metric("Total Transactions", metrics["total_transactions"])
 
-    outlet_df["date"] = pd.to_datetime(outlet_df["date"])
+    st.subheader("Daily Transaction Trend")
+    st.line_chart(daily_transactions_df.set_index("date")["transactions"])
 
-    st.markdown("### 🏬 Store-wise Daily Transaction Trend")
+    st.subheader("Store-wise Daily Transactions")
+    st.dataframe(outlet_transactions_df)
 
-    # Get unique store IDs
-    store_ids = sorted(outlet_df["sales_outlet_id"].unique())
+# -------------------- SALES TAB --------------------
+with tab2:
+    st.subheader("Sales Overview")
+    st.metric("Total Sales", f"${metrics['total_sales']:,.2f}")
 
-    # Allow user to select one or more store IDs
-    selected_store_ids = st.multiselect(
-        "Select Store ID(s):",
-        options=store_ids,
-        default=store_ids
-    )
+    # Filters
+    with st.sidebar:
+        st.header("💡 Sales Filters")
+        selected_store = st.selectbox("Store ID", options=["All"] + store_ids)
+        selected_range = st.date_input("Date Range", [min_date, max_date])
 
-    # Filter by selected store IDs
-    filtered_df = outlet_df[outlet_df["sales_outlet_id"].isin(selected_store_ids)]
+    # Apply filters
+    filtered_sales_df = daily_sales_df.copy()
+    if selected_store != "All":
+        # Filter using outlet_daily_transactions
+        filtered_stores_df = pd.DataFrame(metrics["outlet_daily_transactions"])
+        filtered_stores_df["transaction_date"] = pd.to_datetime(filtered_stores_df["transaction_date"])
+        filtered_stores_df = filtered_stores_df[filtered_stores_df["store_id"] == selected_store]
+        sales_dates = filtered_stores_df["transaction_date"].unique()
+        filtered_sales_df = filtered_sales_df[daily_sales_df["date"].isin(sales_dates)]
 
-    # Pivot data to show one line per store
-    pivot_df = filtered_df.pivot_table(
-        index="date", columns="sales_outlet_id", values="transactions", fill_value=0
-    )
+    # Filter by date
+    filtered_sales_df = filtered_sales_df[
+        (filtered_sales_df["date"] >= pd.to_datetime(selected_range[0])) &
+        (filtered_sales_df["date"] <= pd.to_datetime(selected_range[1]))
+    ]
 
-    st.line_chart(pivot_df)
+    st.subheader("Daily Sales Trend")
+    st.line_chart(filtered_sales_df.set_index("date")["sales"])
+
+    if selected_store == "All":
+        st.subheader("Store-wise Total Sales")
+        st.bar_chart(store_sales_df.set_index("store_id")["sales"])

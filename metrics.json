@@ -121,438 +121,571 @@
     "outlet_daily_transactions": [
         {
             "transaction_date": "2019-04-01",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 584
         },
         {
             "transaction_date": "2019-04-01",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 518
         },
         {
             "transaction_date": "2019-04-01",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 555
         },
         {
             "transaction_date": "2019-04-02",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 604
         },
         {
             "transaction_date": "2019-04-02",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 479
         },
         {
             "transaction_date": "2019-04-02",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 555
         },
         {
             "transaction_date": "2019-04-03",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 620
         },
         {
             "transaction_date": "2019-04-03",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 517
         },
         {
             "transaction_date": "2019-04-03",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 546
         },
         {
             "transaction_date": "2019-04-04",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 571
         },
         {
             "transaction_date": "2019-04-04",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 495
         },
         {
             "transaction_date": "2019-04-04",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 525
         },
         {
             "transaction_date": "2019-04-05",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 601
         },
         {
             "transaction_date": "2019-04-05",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 522
         },
         {
             "transaction_date": "2019-04-05",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 511
         },
         {
             "transaction_date": "2019-04-06",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 439
         },
         {
             "transaction_date": "2019-04-06",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 504
         },
         {
             "transaction_date": "2019-04-06",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 522
         },
         {
             "transaction_date": "2019-04-07",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 520
         },
         {
             "transaction_date": "2019-04-07",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 504
         },
         {
             "transaction_date": "2019-04-07",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 669
         },
         {
             "transaction_date": "2019-04-08",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 609
         },
         {
             "transaction_date": "2019-04-08",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 599
         },
         {
             "transaction_date": "2019-04-08",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 638
         },
         {
             "transaction_date": "2019-04-09",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 524
         },
         {
             "transaction_date": "2019-04-09",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 550
         },
         {
             "transaction_date": "2019-04-09",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 683
         },
         {
             "transaction_date": "2019-04-10",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 557
         },
         {
             "transaction_date": "2019-04-10",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 584
         },
         {
             "transaction_date": "2019-04-10",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 657
         },
         {
             "transaction_date": "2019-04-11",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 502
         },
         {
             "transaction_date": "2019-04-11",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 595
         },
         {
             "transaction_date": "2019-04-11",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 610
         },
         {
             "transaction_date": "2019-04-12",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 404
         },
         {
             "transaction_date": "2019-04-12",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 634
         },
         {
             "transaction_date": "2019-04-12",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 643
         },
         {
             "transaction_date": "2019-04-13",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 502
         },
         {
             "transaction_date": "2019-04-13",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 623
         },
         {
             "transaction_date": "2019-04-13",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 704
         },
         {
             "transaction_date": "2019-04-14",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 478
         },
         {
             "transaction_date": "2019-04-14",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 532
         },
         {
             "transaction_date": "2019-04-14",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 723
         },
         {
             "transaction_date": "2019-04-15",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 693
         },
         {
             "transaction_date": "2019-04-15",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 567
         },
         {
             "transaction_date": "2019-04-15",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 575
         },
         {
             "transaction_date": "2019-04-16",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 674
         },
         {
             "transaction_date": "2019-04-16",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 605
         },
         {
             "transaction_date": "2019-04-16",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 618
         },
         {
             "transaction_date": "2019-04-17",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 651
         },
         {
             "transaction_date": "2019-04-17",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 567
         },
         {
             "transaction_date": "2019-04-17",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 591
         },
         {
             "transaction_date": "2019-04-18",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 644
         },
         {
             "transaction_date": "2019-04-18",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 574
         },
         {
             "transaction_date": "2019-04-18",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 626
         },
         {
             "transaction_date": "2019-04-19",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 693
         },
         {
             "transaction_date": "2019-04-19",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 562
         },
         {
             "transaction_date": "2019-04-19",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 652
         },
         {
             "transaction_date": "2019-04-20",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 643
         },
         {
             "transaction_date": "2019-04-20",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 564
         },
         {
             "transaction_date": "2019-04-20",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 573
         },
         {
             "transaction_date": "2019-04-21",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 478
         },
         {
             "transaction_date": "2019-04-21",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 507
         },
         {
             "transaction_date": "2019-04-21",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 703
         },
         {
             "transaction_date": "2019-04-22",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 580
         },
         {
             "transaction_date": "2019-04-22",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 590
         },
         {
             "transaction_date": "2019-04-22",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 495
         },
         {
             "transaction_date": "2019-04-23",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 590
         },
         {
             "transaction_date": "2019-04-23",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 520
         },
         {
             "transaction_date": "2019-04-23",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 576
         },
         {
             "transaction_date": "2019-04-24",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 680
         },
         {
             "transaction_date": "2019-04-24",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 588
         },
         {
             "transaction_date": "2019-04-24",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 547
         },
         {
             "transaction_date": "2019-04-25",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 574
         },
         {
             "transaction_date": "2019-04-25",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 585
         },
         {
             "transaction_date": "2019-04-25",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 530
         },
         {
             "transaction_date": "2019-04-26",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 657
         },
         {
             "transaction_date": "2019-04-26",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 522
         },
         {
             "transaction_date": "2019-04-26",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 536
         },
         {
             "transaction_date": "2019-04-27",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 600
         },
         {
             "transaction_date": "2019-04-27",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 638
         },
         {
             "transaction_date": "2019-04-27",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 614
         },
         {
             "transaction_date": "2019-04-28",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 575
         },
         {
             "transaction_date": "2019-04-28",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 481
         },
         {
             "transaction_date": "2019-04-28",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 476
         },
         {
             "transaction_date": "2019-04-29",
-            "sales_outlet_id": 3,
+            "store_id": 3,
             "transactions": 582
         },
         {
             "transaction_date": "2019-04-29",
-            "sales_outlet_id": 5,
+            "store_id": 5,
             "transactions": 468
         },
         {
             "transaction_date": "2019-04-29",
-            "sales_outlet_id": 8,
+            "store_id": 8,
             "transactions": 418
+        }
+    ],
+    "total_sales": 234211.55,
+    "daily_sales": [
+        {
+            "date": "2019-04-01",
+            "sales": 7462.0
+        },
+        {
+            "date": "2019-04-02",
+            "sales": 7269.1
+        },
+        {
+            "date": "2019-04-03",
+            "sales": 7461.25
+        },
+        {
+            "date": "2019-04-04",
+            "sales": 7086.45
+        },
+        {
+            "date": "2019-04-05",
+            "sales": 7236.25
+        },
+        {
+            "date": "2019-04-06",
+            "sales": 6513.75
+        },
+        {
+            "date": "2019-04-07",
+            "sales": 7732.23
+        },
+        {
+            "date": "2019-04-08",
+            "sales": 8862.29
+        },
+        {
+            "date": "2019-04-09",
+            "sales": 8379.73
+        },
+        {
+            "date": "2019-04-10",
+            "sales": 8248.98
+        },
+        {
+            "date": "2019-04-11",
+            "sales": 7813.99
+        },
+        {
+            "date": "2019-04-12",
+            "sales": 7712.53
+        },
+        {
+            "date": "2019-04-13",
+            "sales": 8736.51
+        },
+        {
+            "date": "2019-04-14",
+            "sales": 8210.86
+        },
+        {
+            "date": "2019-04-15",
+            "sales": 8674.39
+        },
+        {
+            "date": "2019-04-16",
+            "sales": 8596.54
+        },
+        {
+            "date": "2019-04-17",
+            "sales": 9843.05
+        },
+        {
+            "date": "2019-04-18",
+            "sales": 8703.53
+        },
+        {
+            "date": "2019-04-19",
+            "sales": 8946.89
+        },
+        {
+            "date": "2019-04-20",
+            "sales": 8188.26
+        },
+        {
+            "date": "2019-04-21",
+            "sales": 8403.01
+        },
+        {
+            "date": "2019-04-22",
+            "sales": 8251.91
+        },
+        {
+            "date": "2019-04-23",
+            "sales": 8254.89
+        },
+        {
+            "date": "2019-04-24",
+            "sales": 8889.3
+        },
+        {
+            "date": "2019-04-25",
+            "sales": 8340.85
+        },
+        {
+            "date": "2019-04-26",
+            "sales": 8430.88
+        },
+        {
+            "date": "2019-04-27",
+            "sales": 8771.58
+        },
+        {
+            "date": "2019-04-28",
+            "sales": 6748.15
+        },
+        {
+            "date": "2019-04-29",
+            "sales": 6442.4
+        }
+    ],
+    "store_sales": [
+        {
+            "store_id": 3,
+            "sales": 77482.73
+        },
+        {
+            "store_id": 5,
+            "sales": 77200.57
+        },
+        {
+            "store_id": 8,
+            "sales": 79528.25
         }
     ]
 }
