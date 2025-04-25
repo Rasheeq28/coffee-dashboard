@@ -297,6 +297,7 @@
 import streamlit as st
 import pandas as pd
 import json
+import sqlite3
 from datetime import datetime
 
 # Load precomputed metrics from metrics.json
