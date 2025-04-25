@@ -253,6 +253,47 @@
 #         st.info("Please select at least one store to view the trend.")
 
 
+# import streamlit as st
+# import json
+# import pandas as pd
+#
+# # Load metrics from analysis
+# with open("metrics.json", "r") as f:
+#     metrics = json.load(f)
+#
+# # --- Sidebar Filter ---
+# st.sidebar.title("📊 Transactions")
+# filter_option = st.sidebar.radio("Filter by:", ["Date", "Store ID"])
+#
+# # --- Show total transactions ---
+# st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
+#
+# # --- Daily Transactions Chart ---
+# if filter_option == "Date":
+#     daily_df = pd.DataFrame(metrics["daily_transactions"])
+#     daily_df["date"] = pd.to_datetime(daily_df["date"])
+#
+#     st.markdown("### 📅 Daily Transaction Trend")
+#     st.line_chart(daily_df.set_index("date")["transactions"])
+#
+# # --- Store-wise Transaction Chart ---
+# elif filter_option == "Store ID":
+#     outlet_df = pd.DataFrame(metrics["outlet_daily_transactions"])
+#
+#     # Fix: Rename if needed
+#     if 'transaction_date' in outlet_df.columns:
+#         outlet_df = outlet_df.rename(columns={'transaction_date': 'date'})
+#
+#     outlet_df["date"] = pd.to_datetime(outlet_df["date"])
+#
+#     st.markdown("### 🏬 Store-wise Daily Transaction Trend")
+#
+#     # Pivot data to get one line per store
+#     pivot_df = outlet_df.pivot_table(index="date", columns="sales_outlet_id", values="transactions", fill_value=0)
+#
+#     st.line_chart(pivot_df)
+
+
 import streamlit as st
 import json
 import pandas as pd
@@ -280,7 +321,7 @@ if filter_option == "Date":
 elif filter_option == "Store ID":
     outlet_df = pd.DataFrame(metrics["outlet_daily_transactions"])
 
-    # Fix: Rename if needed
+    # Rename if needed
     if 'transaction_date' in outlet_df.columns:
         outlet_df = outlet_df.rename(columns={'transaction_date': 'date'})
 
@@ -288,7 +329,22 @@ elif filter_option == "Store ID":
 
     st.markdown("### 🏬 Store-wise Daily Transaction Trend")
 
-    # Pivot data to get one line per store
-    pivot_df = outlet_df.pivot_table(index="date", columns="sales_outlet_id", values="transactions", fill_value=0)
+    # Get unique store IDs
+    store_ids = sorted(outlet_df["sales_outlet_id"].unique())
+
+    # Allow user to select one or more store IDs
+    selected_store_ids = st.multiselect(
+        "Select Store ID(s):",
+        options=store_ids,
+        default=store_ids
+    )
+
+    # Filter by selected store IDs
+    filtered_df = outlet_df[outlet_df["sales_outlet_id"].isin(selected_store_ids)]
+
+    # Pivot data to show one line per store
+    pivot_df = filtered_df.pivot_table(
+        index="date", columns="sales_outlet_id", values="transactions", fill_value=0
+    )
 
     st.line_chart(pivot_df)
