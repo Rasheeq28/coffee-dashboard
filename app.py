@@ -563,7 +563,7 @@ store_ids = store_sales_df["store_id"].unique().tolist()
 # UI
 st.title("📊 Sales & Transactions Dashboard")
 
-tab1, tab2 = st.tabs(["🧾 Transactions", "💰 Sales"])
+tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "Sales"])
 
 # -------------------- TRANSACTIONS TAB --------------------
 with tab1:
