@@ -1,0 +1,12 @@
+[1mdiff --git a/app.py b/app.py[m
+[1mindex 8312b8f8..ed515174 100644[m
+[1m--- a/app.py[m
+[1m+++ b/app.py[m
+[36m@@ -347,7 +347,6 @@[m [mwith tab2:[m
+         selected_range = st.date_input("Date Range", [min_date, max_date])[m
+ [m
+     # Load full transaction data for accurate filtering[m
+[31m-    # df_full = pd.read_json("metrics.json")  # fallback if needed[m
+     df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', sqlite3.connect("sheets_data.db"))[m
+     df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])[m
+     df_raw['sales'] = df_raw['quantity'] * df_raw['unit_price'][m

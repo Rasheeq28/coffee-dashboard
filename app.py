@@ -347,7 +347,6 @@ with tab2:
         selected_range = st.date_input("Date Range", [min_date, max_date])
 
     # Load full transaction data for accurate filtering
-    # df_full = pd.read_json("metrics.json")  # fallback if needed
     df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', sqlite3.connect("sheets_data.db"))
     df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])
     df_raw['sales'] = df_raw['quantity'] * df_raw['unit_price']
