@@ -44,9 +44,8 @@
 #         st.line_chart(df[chart_col])
 # dashboard.py
 import streamlit as st
-import sqlite3
+import json
 import pandas as pd
-import sqlite3
 
 # Load metrics from analysis
 with open("metrics.json", "r") as f:
@@ -55,3 +54,12 @@ with open("metrics.json", "r") as f:
 # Show total transactions
 st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
 
+# Load daily transaction trend into a DataFrame
+daily_df = pd.DataFrame(metrics["daily_transactions"])
+
+# Convert date column to datetime for plotting
+daily_df["date"] = pd.to_datetime(daily_df["date"])
+
+# Show line chart
+st.markdown("### 📈 Daily Transaction Trend")
+st.line_chart(daily_df.set_index("date")["transactions"])

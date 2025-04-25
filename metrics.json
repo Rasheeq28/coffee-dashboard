@@ -1,1 +1,121 @@
-{"total_transactions": 49894}
+{
+    "total_transactions": 49894,
+    "daily_transactions": [
+        {
+            "date": "2019-04-01",
+            "transactions": 1657
+        },
+        {
+            "date": "2019-04-02",
+            "transactions": 1638
+        },
+        {
+            "date": "2019-04-03",
+            "transactions": 1683
+        },
+        {
+            "date": "2019-04-04",
+            "transactions": 1591
+        },
+        {
+            "date": "2019-04-05",
+            "transactions": 1634
+        },
+        {
+            "date": "2019-04-06",
+            "transactions": 1465
+        },
+        {
+            "date": "2019-04-07",
+            "transactions": 1693
+        },
+        {
+            "date": "2019-04-08",
+            "transactions": 1846
+        },
+        {
+            "date": "2019-04-09",
+            "transactions": 1757
+        },
+        {
+            "date": "2019-04-10",
+            "transactions": 1798
+        },
+        {
+            "date": "2019-04-11",
+            "transactions": 1707
+        },
+        {
+            "date": "2019-04-12",
+            "transactions": 1681
+        },
+        {
+            "date": "2019-04-13",
+            "transactions": 1829
+        },
+        {
+            "date": "2019-04-14",
+            "transactions": 1733
+        },
+        {
+            "date": "2019-04-15",
+            "transactions": 1835
+        },
+        {
+            "date": "2019-04-16",
+            "transactions": 1897
+        },
+        {
+            "date": "2019-04-17",
+            "transactions": 1809
+        },
+        {
+            "date": "2019-04-18",
+            "transactions": 1844
+        },
+        {
+            "date": "2019-04-19",
+            "transactions": 1907
+        },
+        {
+            "date": "2019-04-20",
+            "transactions": 1780
+        },
+        {
+            "date": "2019-04-21",
+            "transactions": 1688
+        },
+        {
+            "date": "2019-04-22",
+            "transactions": 1665
+        },
+        {
+            "date": "2019-04-23",
+            "transactions": 1686
+        },
+        {
+            "date": "2019-04-24",
+            "transactions": 1815
+        },
+        {
+            "date": "2019-04-25",
+            "transactions": 1689
+        },
+        {
+            "date": "2019-04-26",
+            "transactions": 1715
+        },
+        {
+            "date": "2019-04-27",
+            "transactions": 1852
+        },
+        {
+            "date": "2019-04-28",
+            "transactions": 1532
+        },
+        {
+            "date": "2019-04-29",
+            "transactions": 1468
+        }
+    ]
+}
