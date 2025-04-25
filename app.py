@@ -563,7 +563,7 @@ store_ids = store_sales_df["store_id"].unique().tolist()
 # UI
 st.title("📊 Sales & Transactions Dashboard")
 
-tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "🍵 Products"])
+tab1, tab2 = st.tabs(["🧾 Transactions", "💰 Sales"])
 
 # -------------------- TRANSACTIONS TAB --------------------
 with tab1:
@@ -642,3 +642,5 @@ with tab2:
     if selected_store == "All":
         st.subheader("Store-wise Total Sales")
         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
+
+
