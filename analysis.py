@@ -1,23 +1,16 @@
-import sqlite3
-import pandas as pd
 import json
+import pandas as pd
+import sqlite3
 
-# Connect to the SQLite database
+# Connect and calculate transaction count
 conn = sqlite3.connect("sheets_data.db")
-
-# Load the sheet table (assuming it was saved as '201904_sales_reciepts')
-table_name = "201904_sales_reciepts"
-
-# Read the table into a DataFrame
-df = pd.read_sql_query(f'SELECT * FROM "{table_name}"', conn)
-
-# Count non-null transaction IDs in column A
-total_transactions = df["transaction_id"].count()
-
-# Save the total into a JSON file to be used by app.py
-result = {"total_transactions": total_transactions}
-with open("metrics.json", "w") as f:
-    json.dump(result, f)
-
-print(f"✅ Total transactions calculated: {total_transactions}")
+df = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', conn)
+transaction_count = df['transaction_id'].count()
 conn.close()
+
+# Convert to native int
+transaction_count = int(transaction_count)
+
+# Save to metrics.json
+with open("metrics.json", "w") as f:
+    json.dump({"total_transactions": transaction_count}, f)
