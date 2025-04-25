@@ -261,43 +261,34 @@ import pandas as pd
 with open("metrics.json", "r") as f:
     metrics = json.load(f)
 
-# Sidebar section for Transactions
-with st.sidebar:
-    st.markdown("## 📊 Transactions")
-    filter_mode = st.radio("Filter by", ["Date", "Store ID"])
+# --- Sidebar Filter ---
+st.sidebar.title("📊 Transactions")
+filter_option = st.sidebar.radio("Filter by:", ["Date", "Store ID"])
 
-# Show total transactions at the top
+# --- Show total transactions ---
 st.markdown(f"### 💰 Total transactions till date: **{metrics['total_transactions']}**")
 
-# Load daily transaction trend
-daily_df = pd.DataFrame(metrics["daily_transactions"])
-daily_df["date"] = pd.to_datetime(daily_df["date"])
+# --- Daily Transactions Chart ---
+if filter_option == "Date":
+    daily_df = pd.DataFrame(metrics["daily_transactions"])
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
 
-# Load store-wise daily trend
-outlet_df = pd.DataFrame(metrics["outlet_daily_transactions"])
-outlet_df["date"] = pd.to_datetime(outlet_df["date"])
-
-# Show appropriate chart based on filter mode
-if filter_mode == "Date":
     st.markdown("### 📅 Daily Transaction Trend")
     st.line_chart(daily_df.set_index("date")["transactions"])
 
-elif filter_mode == "Store ID":
-    st.markdown("### 🏪 Store-wise Daily Transaction Trend")
+# --- Store-wise Transaction Chart ---
+elif filter_option == "Store ID":
+    outlet_df = pd.DataFrame(metrics["outlet_daily_transactions"])
 
-    # Let user select store(s) to compare
-    available_stores = sorted(outlet_df["sales_outlet_id"].unique())
-    selected_stores = st.sidebar.multiselect("Select Store ID(s)", available_stores, default=available_stores[:1])
+    # Fix: Rename if needed
+    if 'transaction_date' in outlet_df.columns:
+        outlet_df = outlet_df.rename(columns={'transaction_date': 'date'})
 
-    if selected_stores:
-        filtered_df = outlet_df[outlet_df["sales_outlet_id"].isin(selected_stores)]
-        pivot_df = filtered_df.pivot_table(
-            index="date",
-            columns="sales_outlet_id",
-            values="transactions",
-            aggfunc="sum"
-        ).fillna(0)
+    outlet_df["date"] = pd.to_datetime(outlet_df["date"])
 
-        st.line_chart(pivot_df)
-    else:
-        st.info("Please select at least one store to view the trend.")
+    st.markdown("### 🏬 Store-wise Daily Transaction Trend")
+
+    # Pivot data to get one line per store
+    pivot_df = outlet_df.pivot_table(index="date", columns="sales_outlet_id", values="transactions", fill_value=0)
+
+    st.line_chart(pivot_df)
