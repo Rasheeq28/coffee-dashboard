@@ -299,7 +299,13 @@ import pandas as pd
 import json
 import sqlite3
 from datetime import datetime
+import plotly.express as px
 
+conn = sqlite3.connect("sheets_data.db")
+df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', conn)
+
+# Parse dates for filtering and plotting
+df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])
 # Load precomputed metrics from metrics.json
 with open("metrics.json", "r") as f:
     metrics = json.load(f)
@@ -333,8 +339,33 @@ with tab1:
     st.subheader("Daily Transaction Trend")
     st.line_chart(daily_transactions_df.set_index("date")["transactions"])
 
-    st.subheader("Store-wise Daily Transactions")
-    st.dataframe(outlet_transactions_df)
+    st.subheader("📍 Store-wise Daily Transactions")
+
+    # Get unique store IDs
+    store_options_txn = df_raw['sales_outlet_id'].unique().tolist()
+
+    # Dropdown to select a store
+    selected_store_txn = st.selectbox("Select a store for transaction trend", ["All"] + store_options_txn)
+
+    # Group and prepare transaction trend
+    transactions_by_store = (
+        df_raw.groupby([df_raw['transaction_date'].dt.date, 'sales_outlet_id'])['transaction_id']
+        .count()
+        .reset_index()
+        .rename(columns={'transaction_id': 'transactions', 'transaction_date': 'date'})
+    )
+
+    # Filter based on store selection
+    if selected_store_txn != "All":
+        transactions_by_store = transactions_by_store[transactions_by_store['sales_outlet_id'] == selected_store_txn]
+
+    # Pivot for plotting if needed (not mandatory with altair, but optional if you'd like multi-line per store)
+    # Plot line chart
+    fig = px.line(transactions_by_store, x="date", y="transactions",
+                  color="sales_outlet_id" if selected_store_txn == "All" else None,
+                  title=f"Store-wise Daily Transactions for {selected_store_txn}" if selected_store_txn != "All" else "Store-wise Daily Transactions")
+
+    st.plotly_chart(fig, use_container_width=True)
 
 # -------------------- SALES TAB --------------------
 with tab2:
@@ -370,7 +401,7 @@ with tab2:
     daily_filtered_sales.columns = ['date', 'sales']
     daily_filtered_sales['date'] = pd.to_datetime(daily_filtered_sales['date'])
 
-    st.subheader(f"Daily Sales Trend - {selected_store}")
+    st.subheader(f"Daily Sales Trend - store {selected_store}")
     st.line_chart(daily_filtered_sales.set_index("date")["sales"])
 
     if selected_store == "All":
