@@ -892,6 +892,148 @@
 #         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
 
 
+# import streamlit as st
+# import pandas as pd
+# import json
+# import sqlite3
+# from datetime import datetime
+# import plotly.express as px
+#
+# conn = sqlite3.connect("sheets_data.db")
+# df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', conn)
+#
+# # Parse dates for filtering and plotting
+# df_raw['transaction_date'] = pd.to_datetime(df_raw['transaction_date'])
+# df_raw['sales'] = df_raw['quantity'] * df_raw['unit_price']
+#
+# # Load precomputed metrics from metrics.json
+# with open("metrics.json", "r") as f:
+#     metrics = json.load(f)
+#
+# # Convert to DataFrames
+# daily_transactions_df = pd.DataFrame(metrics["daily_transactions"])
+# outlet_transactions_df = pd.DataFrame(metrics["outlet_daily_transactions"])
+# daily_sales_df = pd.DataFrame(metrics["daily_sales"])
+# store_sales_df = pd.DataFrame(metrics["store_sales"])
+#
+# # Ensure date columns are datetime
+# daily_transactions_df["date"] = pd.to_datetime(daily_transactions_df["date"])
+# outlet_transactions_df["transaction_date"] = pd.to_datetime(outlet_transactions_df["transaction_date"])
+# daily_sales_df["date"] = pd.to_datetime(daily_sales_df["date"])
+#
+# # Get date range, store list, and product list
+# min_date = daily_sales_df["date"].min().date()
+# max_date = daily_sales_df["date"].max().date()
+# store_ids = sorted(store_sales_df["store_id"].unique().tolist())
+# product_ids = sorted(df_raw["product_id"].unique().tolist())
+#
+# # UI
+# st.title("📊 Sales & Transactions Dashboard")
+#
+# tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "🍵 Products"])
+#
+# # -------------------- TRANSACTIONS TAB --------------------
+# with tab1:
+#     st.subheader("Transaction Overview")
+#     st.metric("Total Transactions", metrics["total_transactions"])
+#
+#     # Filters
+#     with st.sidebar:
+#         st.header("🧾 Transaction Filters")
+#         selected_store_txn = st.selectbox(
+#             "Store ID (Transactions)",
+#             options=["All"] + store_ids,
+#             index=None,
+#             placeholder="Select or type Store ID"
+#         )
+#         selected_product_txn = st.selectbox(
+#             "Product ID (Transactions)",
+#             options=["All"] + product_ids,
+#             index=None,
+#             placeholder="Select or type Product ID"
+#         )
+#         selected_range_txn = st.date_input("Transaction Date Range", [min_date, max_date], key="txn")
+#
+#     # Apply filters
+#     mask_txn = (df_raw['transaction_date'].dt.date >= selected_range_txn[0]) & \
+#                (df_raw['transaction_date'].dt.date <= selected_range_txn[1])
+#
+#     if selected_store_txn and selected_store_txn != "All":
+#         mask_txn &= df_raw['sales_outlet_id'] == selected_store_txn
+#
+#     if selected_product_txn and selected_product_txn != "All":
+#         mask_txn &= df_raw['product_id'] == selected_product_txn
+#
+#     filtered_txn = df_raw[mask_txn]
+#     st.metric("Filtered Transactions", len(filtered_txn))
+#
+#     # Group and prepare transaction trend
+#     transactions_by_store = (
+#         filtered_txn.groupby(filtered_txn['transaction_date'].dt.date)['transaction_id']
+#         .count()
+#         .reset_index()
+#         .rename(columns={'transaction_id': 'transactions', 'transaction_date': 'date'})
+#     )
+#     transactions_by_store['date'] = pd.to_datetime(transactions_by_store['date'])
+#
+#     st.subheader("Filtered Daily Transaction Trend")
+#     st.line_chart(transactions_by_store.set_index("date")["transactions"])
+#
+# # -------------------- SALES TAB --------------------
+# with tab2:
+#     st.subheader("Sales Overview")
+#
+#     # Filters
+#     with st.sidebar:
+#         st.header("💡 Sales Filters")
+#         selected_store = st.selectbox(
+#             "Store ID (Sales)",
+#             options=["All"] + store_ids,
+#             index=None,
+#             placeholder="Select or type Store ID",
+#             key="sales_store"
+#         )
+#         selected_product = st.selectbox(
+#             "Product ID (Sales)",
+#             options=["All"] + product_ids,
+#             index=None,
+#             placeholder="Select or type Product ID",
+#             key="sales_product"
+#         )
+#         selected_range = st.date_input("Sales Date Range", [min_date, max_date], key="sales")
+#
+#     # Apply filters to raw data
+#     mask = (df_raw['transaction_date'].dt.date >= selected_range[0]) & \
+#            (df_raw['transaction_date'].dt.date <= selected_range[1])
+#
+#     if selected_store and selected_store != "All":
+#         mask &= (df_raw['sales_outlet_id'] == selected_store)
+#
+#     if selected_product and selected_product != "All":
+#         mask &= (df_raw['product_id'] == selected_product)
+#
+#     filtered = df_raw[mask]
+#
+#     # Filtered sales total
+#     st.metric("Filtered Total Sales", f"${filtered['sales'].sum():,.2f}")
+#
+#     # Daily sales for filtered data
+#     daily_filtered_sales = (
+#         filtered.groupby(filtered['transaction_date'].dt.date)['sales']
+#         .sum()
+#         .reset_index()
+#     )
+#     daily_filtered_sales.columns = ['date', 'sales']
+#     daily_filtered_sales['date'] = pd.to_datetime(daily_filtered_sales['date'])
+#
+#     st.subheader(f"Filtered Daily Sales Trend - store {selected_store}")
+#     st.line_chart(daily_filtered_sales.set_index("date")["sales"])
+#
+#     if selected_store == "All" or selected_store is None:
+#         st.subheader("Store-wise Total Sales")
+#         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
+
+
 import streamlit as st
 import pandas as pd
 import json
@@ -899,6 +1041,7 @@ import sqlite3
 from datetime import datetime
 import plotly.express as px
 
+# Load data
 conn = sqlite3.connect("sheets_data.db")
 df_raw = pd.read_sql_query('SELECT * FROM "201904_sales_reciepts"', conn)
 
@@ -929,7 +1072,6 @@ product_ids = sorted(df_raw["product_id"].unique().tolist())
 
 # UI
 st.title("📊 Sales & Transactions Dashboard")
-
 tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "🍵 Products"])
 
 # -------------------- TRANSACTIONS TAB --------------------
@@ -937,20 +1079,17 @@ with tab1:
     st.subheader("Transaction Overview")
     st.metric("Total Transactions", metrics["total_transactions"])
 
-    # Filters
     with st.sidebar:
         st.header("🧾 Transaction Filters")
-        selected_store_txn = st.selectbox(
+        selected_store_txn = st.multiselect(
             "Store ID (Transactions)",
-            options=["All"] + store_ids,
-            index=None,
-            placeholder="Select or type Store ID"
+            options=store_ids,
+            placeholder="Select or type Store IDs"
         )
-        selected_product_txn = st.selectbox(
+        selected_product_txn = st.multiselect(
             "Product ID (Transactions)",
-            options=["All"] + product_ids,
-            index=None,
-            placeholder="Select or type Product ID"
+            options=product_ids,
+            placeholder="Select or type Product IDs"
         )
         selected_range_txn = st.date_input("Transaction Date Range", [min_date, max_date], key="txn")
 
@@ -958,11 +1097,10 @@ with tab1:
     mask_txn = (df_raw['transaction_date'].dt.date >= selected_range_txn[0]) & \
                (df_raw['transaction_date'].dt.date <= selected_range_txn[1])
 
-    if selected_store_txn and selected_store_txn != "All":
-        mask_txn &= df_raw['sales_outlet_id'] == selected_store_txn
-
-    if selected_product_txn and selected_product_txn != "All":
-        mask_txn &= df_raw['product_id'] == selected_product_txn
+    if selected_store_txn:
+        mask_txn &= df_raw['sales_outlet_id'].isin(selected_store_txn)
+    if selected_product_txn:
+        mask_txn &= df_raw['product_id'].isin(selected_product_txn)
 
     filtered_txn = df_raw[mask_txn]
     st.metric("Filtered Transactions", len(filtered_txn))
@@ -983,21 +1121,18 @@ with tab1:
 with tab2:
     st.subheader("Sales Overview")
 
-    # Filters
     with st.sidebar:
         st.header("💡 Sales Filters")
-        selected_store = st.selectbox(
+        selected_store = st.multiselect(
             "Store ID (Sales)",
-            options=["All"] + store_ids,
-            index=None,
-            placeholder="Select or type Store ID",
+            options=store_ids,
+            placeholder="Select or type Store IDs",
             key="sales_store"
         )
-        selected_product = st.selectbox(
+        selected_product = st.multiselect(
             "Product ID (Sales)",
-            options=["All"] + product_ids,
-            index=None,
-            placeholder="Select or type Product ID",
+            options=product_ids,
+            placeholder="Select or type Product IDs",
             key="sales_product"
         )
         selected_range = st.date_input("Sales Date Range", [min_date, max_date], key="sales")
@@ -1006,15 +1141,12 @@ with tab2:
     mask = (df_raw['transaction_date'].dt.date >= selected_range[0]) & \
            (df_raw['transaction_date'].dt.date <= selected_range[1])
 
-    if selected_store and selected_store != "All":
-        mask &= (df_raw['sales_outlet_id'] == selected_store)
-
-    if selected_product and selected_product != "All":
-        mask &= (df_raw['product_id'] == selected_product)
+    if selected_store:
+        mask &= df_raw['sales_outlet_id'].isin(selected_store)
+    if selected_product:
+        mask &= df_raw['product_id'].isin(selected_product)
 
     filtered = df_raw[mask]
-
-    # Filtered sales total
     st.metric("Filtered Total Sales", f"${filtered['sales'].sum():,.2f}")
 
     # Daily sales for filtered data
@@ -1026,9 +1158,9 @@ with tab2:
     daily_filtered_sales.columns = ['date', 'sales']
     daily_filtered_sales['date'] = pd.to_datetime(daily_filtered_sales['date'])
 
-    st.subheader(f"Filtered Daily Sales Trend - store {selected_store}")
+    st.subheader("Filtered Daily Sales Trend")
     st.line_chart(daily_filtered_sales.set_index("date")["sales"])
 
-    if selected_store == "All" or selected_store is None:
+    if not selected_store:
         st.subheader("Store-wise Total Sales")
         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
