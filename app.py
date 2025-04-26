@@ -1164,3 +1164,31 @@ with tab2:
     if not selected_store:
         st.subheader("Store-wise Total Sales")
         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
+
+# -------------------- PRODUCTS TAB --------------------
+with tab3:
+    st.subheader("Top 3 Products by Total Sales (All Stores)")
+    top_products = (
+        df_raw.groupby("product_id")["sales"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(3)
+        .reset_index()
+    )
+
+    fig_all = px.bar(top_products, x="product_id", y="sales", title="Top 3 Products Overall", text="sales")
+    st.plotly_chart(fig_all)
+
+    st.subheader("Top 3 Products in Each Store")
+    for store_id in store_ids:
+        store_data = df_raw[df_raw["sales_outlet_id"] == store_id]
+        top_products_store = (
+            store_data.groupby("product_id")["sales"]
+            .sum()
+            .sort_values(ascending=False)
+            .head(3)
+            .reset_index()
+        )
+        fig_store = px.bar(top_products_store, x="product_id", y="sales",
+                           title=f"Top 3 Products - Store {store_id}", text="sales")
+        st.plotly_chart(fig_store)
