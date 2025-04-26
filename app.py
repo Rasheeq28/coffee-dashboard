@@ -676,10 +676,12 @@ outlet_transactions_df["transaction_date"] = pd.to_datetime(outlet_transactions_
 daily_sales_df["date"] = pd.to_datetime(daily_sales_df["date"])
 
 # Get date range, store list, and product list
+# Get date range, store list, and product list
 min_date = daily_sales_df["date"].min().date()
 max_date = daily_sales_df["date"].max().date()
-store_ids = store_sales_df["store_id"].unique().tolist()
-product_ids = df_raw["product_id"].unique().tolist()
+store_ids = sorted(store_sales_df["store_id"].unique().tolist())  # sorted
+product_ids = sorted(df_raw["product_id"].unique().tolist())      # sorted
+
 
 # UI
 st.title("📊 Sales & Transactions Dashboard")
