@@ -1178,14 +1178,15 @@ with tab3:
         .head(3)
         .reset_index()
     )
-    top_products_overall["product_id"] = top_products_overall["product_id"].astype(str)  # 🛠 Make x-axis categorical
+    top_products_overall["label"] = [f"Product {i+1}" for i in range(len(top_products_overall))]
 
     fig_overall = px.bar(
         top_products_overall,
-        x="product_id",
+        x="label",
         y="sales",
         title="Top 3 Products Overall by Sales",
-        labels={"product_id": "Product ID", "sales": "Sales ($)"}
+        labels={"label": "Product", "sales": "Sales ($)"},
+        hover_data={"product_id": True}
     )
     st.plotly_chart(fig_overall, use_container_width=True)
 
@@ -1201,13 +1202,14 @@ with tab3:
             .head(3)
             .reset_index()
         )
-        top_products_store["product_id"] = top_products_store["product_id"].astype(str)  # 🛠 Fix x-axis
+        top_products_store["label"] = [f"Product {i+1}" for i in range(len(top_products_store))]
 
         fig_store = px.bar(
             top_products_store,
-            x="product_id",
+            x="label",
             y="sales",
             title=f"Top 3 Products - Store {store_id}",
-            labels={"product_id": "Product ID", "sales": "Sales ($)"}
+            labels={"label": "Product", "sales": "Sales ($)"},
+            hover_data={"product_id": True}
         )
         st.plotly_chart(fig_store, use_container_width=True)
