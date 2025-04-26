@@ -1166,29 +1166,48 @@ with tab2:
         st.bar_chart(store_sales_df.set_index("store_id")["sales"])
 
 # -------------------- PRODUCTS TAB --------------------
+# -------------------- PRODUCTS TAB --------------------
 with tab3:
-    st.subheader("Top 3 Products by Total Sales (All Stores)")
-    top_products = (
+    st.subheader("Top Products by Sales")
+
+    # Overall top 3 products
+    top_products_overall = (
         df_raw.groupby("product_id")["sales"]
         .sum()
         .sort_values(ascending=False)
         .head(3)
         .reset_index()
     )
+    top_products_overall["product_id"] = top_products_overall["product_id"].astype(str)  # 🛠 Make x-axis categorical
 
-    fig_all = px.bar(top_products, x="product_id", y="sales", title="Top 3 Products Overall", text="sales")
-    st.plotly_chart(fig_all)
+    fig_overall = px.bar(
+        top_products_overall,
+        x="product_id",
+        y="sales",
+        title="Top 3 Products Overall by Sales",
+        labels={"product_id": "Product ID", "sales": "Sales ($)"}
+    )
+    st.plotly_chart(fig_overall, use_container_width=True)
 
-    st.subheader("Top 3 Products in Each Store")
+    # Top 3 products per store
+    st.subheader("Top 3 Products by Store")
+
     for store_id in store_ids:
-        store_data = df_raw[df_raw["sales_outlet_id"] == store_id]
+        store_df = df_raw[df_raw["sales_outlet_id"] == store_id]
         top_products_store = (
-            store_data.groupby("product_id")["sales"]
+            store_df.groupby("product_id")["sales"]
             .sum()
             .sort_values(ascending=False)
             .head(3)
             .reset_index()
         )
-        fig_store = px.bar(top_products_store, x="product_id", y="sales",
-                           title=f"Top 3 Products - Store {store_id}", text="sales")
-        st.plotly_chart(fig_store)
+        top_products_store["product_id"] = top_products_store["product_id"].astype(str)  # 🛠 Fix x-axis
+
+        fig_store = px.bar(
+            top_products_store,
+            x="product_id",
+            y="sales",
+            title=f"Top 3 Products - Store {store_id}",
+            labels={"product_id": "Product ID", "sales": "Sales ($)"}
+        )
+        st.plotly_chart(fig_store, use_container_width=True)
