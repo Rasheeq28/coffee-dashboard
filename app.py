@@ -1071,7 +1071,7 @@ store_ids = sorted(store_sales_df["store_id"].unique().tolist())
 product_ids = sorted(df_raw["product_id"].unique().tolist())
 
 # UI
-st.title("Hello Babe ^_~")
+st.title("Coffee Insights")
 tab1, tab2, tab3 = st.tabs(["🧾 Transactions", "💰 Sales", "🍵 Products"])
 
 # -------------------- TRANSACTIONS TAB --------------------
