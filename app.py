@@ -1167,8 +1167,12 @@ with tab2:
 
 # -------------------- PRODUCTS TAB --------------------
 # -------------------- PRODUCTS TAB --------------------
+# -------------------- PRODUCTS TAB --------------------
 with tab3:
     st.subheader("Top Products by Sales")
+
+    # Define custom colors
+    custom_colors = ["#1f77b4", "#ffe066", "#d6b3ff"]  # blue, light yellow, light purple
 
     # Overall top 3 products
     top_products_overall = (
@@ -1186,7 +1190,9 @@ with tab3:
         y="sales",
         title="Top 3 Products Overall by Sales",
         labels={"label": "Product", "sales": "Sales ($)"},
-        hover_data={"product_id": True}
+        hover_data={"product_id": True},
+        color="label",
+        color_discrete_sequence=custom_colors
     )
     st.plotly_chart(fig_overall, use_container_width=True)
 
@@ -1210,6 +1216,8 @@ with tab3:
             y="sales",
             title=f"Top 3 Products - Store {store_id}",
             labels={"label": "Product", "sales": "Sales ($)"},
-            hover_data={"product_id": True}
+            hover_data={"product_id": True},
+            color="label",
+            color_discrete_sequence=custom_colors
         )
         st.plotly_chart(fig_store, use_container_width=True)
